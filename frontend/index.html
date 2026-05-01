@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News App</title>
+</head>
+<body>
+    <h1>Top News</h1>
+    <button onclick="loadNews()">Load News</button>
+    <ul id="news-list"></ul>
+
+    <script>
+        async function loadNews() {
+            const res = await fetch("http://localhost:5000/api/news");
+            const data = await res.json();
+
+            const list = document.getElementById("news-list");
+            list.innerHTML = "";
+
+            data.forEach(article => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <a href="${article.url}" target="_blank">
+                        <strong>${article.title}</strong>
+                    </a>
+                    <p>${article.description || ""}</p>
+                `;
+                list.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
